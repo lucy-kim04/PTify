@@ -1,5 +1,5 @@
 import RegisterPatient from '../features/RegisterPatient/RegisterPatient';
-import CompletedList from '../features/CompletedList/CompletedList'; // 만들 예정
+import CompletedList from '../features/CompletedList/CompletedList';
 import BedGrid from '../features/BedGrid/BedGrid';
 
 export default function Layout() {
