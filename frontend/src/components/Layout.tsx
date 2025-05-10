@@ -1,4 +1,5 @@
 import RegisterPatient from '../features/RegisterPatient/RegisterPatient';
+import WaitingList from '../features/WaitingList/WaitingList';
 
 export default function Layout() {
   return (
@@ -9,9 +10,7 @@ export default function Layout() {
       </aside>
 
       <main className="flex-1 p-4 grid grid-cols-5 grid-rows-2 gap-4">
-        <div className="col-span-5 text-center text-gray-500">
-          🛏️ 베드 배치 영역 (그리드)
-        </div>
+        <WaitingList />
       </main>
 
       <aside className="w-[300px] p-4 border-l bg-white">
