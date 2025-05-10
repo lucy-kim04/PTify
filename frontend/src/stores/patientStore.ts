@@ -16,10 +16,11 @@ type PatientStore = {
   patients: Patient[];
   addPatient: (name: string, treatments: Treatment[]) => void;
   assignBed: (id: string, bedNumber: number) => void;
+  nextTreatment: (id: string) => void;
 };
-
 export const usePatientStore = create<PatientStore>((set) => ({
   patients: [],
+
   addPatient: (name, treatments) => {
     const newPatient: Patient = {
       id: uuidv4(),
@@ -32,6 +33,7 @@ export const usePatientStore = create<PatientStore>((set) => ({
       patients: [...state.patients, newPatient],
     }));
   },
+
   assignBed: (patientId, bedNumber) => {
     set((state) => ({
       patients: state.patients.map((p) =>
@@ -39,6 +41,29 @@ export const usePatientStore = create<PatientStore>((set) => ({
           ? { ...p, assignedBed: bedNumber, status: '진행중' }
           : p
       ),
+    }));
+  },
+
+  nextTreatment: (id) => {
+    set((state) => ({
+      patients: state.patients.map((p) => {
+        if (p.id !== id) return p;
+
+        const nextIndex = p.currentIndex + 1;
+
+        if (nextIndex >= p.treatments.length) {
+          return {
+            ...p,
+            status: '종료됨',
+            assignedBed: undefined,
+          };
+        }
+
+        return {
+          ...p,
+          currentIndex: nextIndex,
+        };
+      }),
     }));
   },
 }));
