@@ -9,11 +9,13 @@ export type Patient = {
   treatments: Treatment[];
   currentIndex: number; // 현재 처방 단계
   status: '대기중' | '진행중' | '종료됨';
+  assignedBed?: number;
 };
 
 type PatientStore = {
   patients: Patient[];
   addPatient: (name: string, treatments: Treatment[]) => void;
+  assignBed: (id: string, bedNumber: number) => void;
 };
 
 export const usePatientStore = create<PatientStore>((set) => ({
@@ -28,6 +30,15 @@ export const usePatientStore = create<PatientStore>((set) => ({
     };
     set((state) => ({
       patients: [...state.patients, newPatient],
+    }));
+  },
+  assignBed: (patientId, bedNumber) => {
+    set((state) => ({
+      patients: state.patients.map((p) =>
+        p.id === patientId
+          ? { ...p, assignedBed: bedNumber, status: '진행중' }
+          : p
+      ),
     }));
   },
 }));
